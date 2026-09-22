@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume & Portfolio Builder</title>
+    <!-- 외부 폰트: Pretendard -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <!-- 커스텀 스타일시트 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 1. 헤더 영역 (포켓몬 에디션) -->
+        <header class="header">
+            <div class="pokemon-badge">⚡ POKÉMON TRAINER EDITION 🎮</div>
+            <h1 class="logo"><span class="pokeball-icon">🔴⚪</span> AI 포켓몬 트레이너 이력서 & 포트폴리오</h1>
+            <p class="subtitle">나의 파트너 포켓몬과 함께 합격률 100%의 전설적인 커리어 스펙을 완성해 보세요!</p>
+        </header>
+
+        <!-- 2. 메인 컨텐츠 영역 (2열 레이아웃: 입력 폼 & 결과 화면) -->
+        <main class="main-content">
+            <!-- 왼쪽: 입력 폼 섹션 -->
+            <section class="form-section">
+                <div class="card">
+                    <h2 class="section-title">지원자 정보 입력</h2>
+                    
+                    <form id="resume-form" novalidate>
+                        <!-- 이름 입력 -->
+                        <div class="form-group">
+                            <label for="name">성명 <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" placeholder="예: 홍길동" required>
+                        </div>
+
+                        <!-- 지원 직무 입력 -->
+                        <div class="form-group">
+                            <label for="job-title">지원 직무 <span class="required">*</span></label>
+                            <input type="text" id="job-title" name="job_title" placeholder="예: 백엔드 개발자, 데이터 분석가" required>
+                        </div>
+
+                        <!-- 🐾 파트너 포켓몬 선택 (인기 포켓몬 10종) -->
+                        <div class="form-group">
+                            <label>나의 파트너 포켓몬 선택 (10종)</label>
+                            <input type="hidden" id="partner-pokemon" name="partner_pokemon" value="피카츄">
+                            <div class="pokemon-grid" id="pokemon-grid">
+                                <div class="pokemon-card active" data-name="피카츄" data-id="25" data-cheer="피카츄가 10만 볼트의 열정으로 강력한 이력서를 작성하고 있습니다! ⚡">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="피카츄" class="poke-avatar">
+                                    <span class="poke-name">피카츄</span>
+                                    <span class="poke-type electric">전기</span>
+                                </div>
+                                <div class="pokemon-card" data-name="파이리" data-id="4" data-cheer="파이리가 꺼지지 않는 열정의 불꽃으로 이력서를 채우고 있습니다! 🔥">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="파이리" class="poke-avatar">
+                                    <span class="poke-name">파이리</span>
+                                    <span class="poke-type fire">불꽃</span>
+                                </div>
+                                <div class="pokemon-card" data-name="꼬부기" data-id="7" data-cheer="꼬부기가 유연하고 시원시원한 포트폴리오를 구성하고 있습니다! 💧">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="꼬부기" class="poke-avatar">
+                                    <span class="poke-name">꼬부기</span>
+                                    <span class="poke-type water">물</span>
+                                </div>
+                                <div class="pokemon-card" data-name="이상해씨" data-id="1" data-cheer="이상해씨가 탄탄한 기본기와 성장 잠재력을 심어주고 있습니다! 🍃">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="이상해씨" class="poke-avatar">
+                                    <span class="poke-name">이상해씨</span>
+                                    <span class="poke-type grass">풀</span>
+                                </div>
+                                <div class="pokemon-card" data-name="이브이" data-id="133" data-cheer="이브이가 어떤 직무든 해내는 무한한 가능성을 증명하고 있습니다! ✨">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" alt="이브이" class="poke-avatar">
+                                    <span class="poke-name">이브이</span>
+                                    <span class="poke-type normal">노말</span>
+                                </div>
+                                <div class="pokemon-card" data-name="잠만보" data-id="143" data-cheer="잠만보도 벌떡 일어날 압도적인 이력서를 완성 중입니다! 💤">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/143.png" alt="잠만보" class="poke-avatar">
+                                    <span class="poke-name">잠만보</span>
+                                    <span class="poke-type normal">노말</span>
+                                </div>
+                                <div class="pokemon-card" data-name="리자몽" data-id="6" data-cheer="리자몽이 화염방사처럼 강력한 리더십과 성과를 기록하고 있습니다! 🐲">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="리자몽" class="poke-avatar">
+                                    <span class="poke-name">리자몽</span>
+                                    <span class="poke-type fire">불꽃/비행</span>
+                                </div>
+                                <div class="pokemon-card" data-name="팬텀" data-id="94" data-cheer="팬텀이 고정관념을 깨부수는 번뜩이는 창의력을 부여하고 있습니다! 👻">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="팬텀" class="poke-avatar">
+                                    <span class="poke-name">팬텀</span>
+                                    <span class="poke-type ghost">고스트</span>
+                                </div>
+                                <div class="pokemon-card" data-name="뮤츠" data-id="150" data-cheer="뮤츠의 압도적인 지성과 분석력으로 최상위권 스펙을 정밀 조율 중입니다! 🔮">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" alt="뮤츠" class="poke-avatar">
+                                    <span class="poke-name">뮤츠</span>
+                                    <span class="poke-type psychic">에스퍼</span>
+                                </div>
+                                <div class="pokemon-card" data-name="루카리오" data-id="448" data-cheer="루카리오의 파동탄처럼 강렬한 소통 능력과 투지를 녹여내고 있습니다! 🥋">
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png" alt="루카리오" class="poke-avatar">
+                                    <span class="poke-name">루카리오</span>
+                                    <span class="poke-type steel">격투/강철</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 어조(Tone) 선택 -->
+                        <div class="form-group">
+                            <label for="tone">문체 및 어조 (Tone)</label>
+                            <select id="tone" name="tone">
+                                <option value="professional" selected>전문적이고 신뢰감을 주는 어조</option>
+                                <option value="confident">자신감 넘치고 주도적인 성과 중심 어조</option>
+                                <option value="creative">창의적이고 감각적인 어조</option>
+                                <option value="friendly">친근하고 협력적인 팀워크 중심 어조</option>
+                            </select>
+                        </div>
+
+                        <!-- 프롬프트 모드 선택 (Prompt A vs Prompt B) -->
+                        <div class="form-group">
+                            <label>생성 모드 선택</label>
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="prompt_type" value="A" checked>
+                                    <div class="radio-content">
+                                        <span class="radio-title">Prompt A (일반 모드)</span>
+                                        <span class="radio-desc">깔끔하고 읽기 쉬운 표준 형식의 초안</span>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="prompt_type" value="B">
+                                    <div class="radio-content">
+                                        <span class="radio-title">Prompt B (전문가 모드)</span>
+                                        <span class="radio-desc">STAR 기법 및 정량적 성과 지표 중심</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 주요 경력 입력 -->
+                        <div class="form-group">
+                            <label for="experience">주요 경력 사항 <span class="required">*</span></label>
+                            <textarea id="experience" name="experience" rows="4" placeholder="회사명, 담당 업무, 재직 기간, 주요 성과 등을 입력해 주세요." required></textarea>
+                        </div>
+
+                        <!-- 수행 프로젝트 입력 -->
+                        <div class="form-group">
+                            <label for="projects">수행 프로젝트 <span class="required">*</span></label>
+                            <textarea id="projects" name="projects" rows="4" placeholder="프로젝트명, 기여 내용, 사용 기술, 해결한 문제 및 결과 등을 입력해 주세요." required></textarea>
+                        </div>
+
+                        <!-- 에러 메시지 알림 박스 (평소에는 숨김) -->
+                        <div id="error-message" class="error-box hidden" role="alert"></div>
+
+                        <!-- 제출 버튼 -->
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            <span class="btn-text">AI 이력서 & 포트폴리오 생성하기</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 오른쪽: 결과 표시 섹션 -->
+            <section class="result-section">
+                <!-- 로딩 표시기 (포켓몬 응원 애니메이션) -->
+                <div id="loading-spinner" class="loading-box hidden">
+                    <div class="poke-loading-animation">
+                        <img id="loading-poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="파트너 포켓몬" class="loading-poke-sprite">
+                        <div class="spinner"></div>
+                    </div>
+                    <p id="loading-title" class="loading-title">피카츄가 10만 볼트의 열정으로 강력한 이력서를 작성하고 있습니다! ⚡</p>
+                    <p class="loading-subtitle">Gemini 3.5 Flash-Lite AI가 최적의 커리어 문장으로 변환 중입니다.</p>
+                </div>
+
+                <!-- 안내 문구 박스 (생성 전 최초 상태) -->
+                <div id="placeholder-box" class="placeholder-box">
+                    <div class="placeholder-icon">🔴⚪</div>
+                    <h3>파트너 포켓몬과 함께 준비 중</h3>
+                    <p>정보를 입력하고 <strong>[포켓몬 트레이너 이력서 생성]</strong> 버튼을 누르면 AI가 생성한 완성도 높은 이력서와 포트폴리오를 확인하실 수 있습니다.</p>
+                </div>
+
+                <!-- 최종 결과 카드 (평소에는 숨김) -->
+                <div id="result-card" class="card result-card hidden">
+                    <div class="result-header">
+                        <div class="result-title-group">
+                            <img id="result-poke-badge" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="포켓몬 배지" class="result-poke-avatar">
+                            <div>
+                                <h2 class="section-title">트레이너 이력서 & 포트폴리오</h2>
+                                <span id="partner-tag" class="partner-tag">파트너: 피카츄</span>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button type="button" id="copy-btn" class="btn btn-outline">
+                                📋 복사하기
+                            </button>
+                            <button type="button" id="download-btn" class="btn btn-outline">
+                                💾 .md 다운로드
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 텍스트 출력 영역 (마크다운 파싱 렌더링) -->
+                    <div class="result-body">
+                        <div id="result-content" class="markdown-preview"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 마크다운 렌더러 라이브러리 (marked.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 프론트엔드 자바스크립트 로드 -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+/* ==========================================================================
+   AI Resume & Portfolio Builder - 스타일시트 (style.css)
+   ========================================================================== */
+
+/* 1. 기본 리셋 및 전역 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 24px;
+}
+
+/* 2. 전체 레이아웃 컨테이너 */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 3. 헤더 영역 */
+.header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.pokemon-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ef4444, #f59e0b);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.pokeball-icon {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+/* 4. 메인 콘텐츠 (2열 그리드: 왼쪽 입력 폼, 오른쪽 결과) */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+@media (max-width: 868px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 5. 카드 공통 스타일 */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 28px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+/* 6. 입력 폼 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.required {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #1e293b;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* 6-1. 파트너 포켓몬 선택 그리드 (10종) */
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+    .pokemon-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.pokemon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 4px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    user-select: none;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-3px);
+    border-color: #fca5a5;
+    box-shadow: 0 6px 12px -2px rgba(239, 68, 68, 0.15);
+}
+
+.pokemon-card.active {
+    border-color: #ef4444;
+    background: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18), 0 8px 16px -4px rgba(239, 68, 68, 0.2);
+    transform: translateY(-2px);
+}
+
+.poke-avatar {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+    transition: transform 0.2s;
+}
+
+.pokemon-card:hover .poke-avatar,
+.pokemon-card.active .poke-avatar {
+    transform: scale(1.1);
+}
+
+.poke-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.poke-type {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: #ffffff;
+}
+
+.poke-type.electric { background-color: #eab308; }
+.poke-type.fire { background-color: #ef4444; }
+.poke-type.water { background-color: #3b82f6; }
+.poke-type.grass { background-color: #22c55e; }
+.poke-type.normal { background-color: #94a3b8; }
+.poke-type.ghost { background-color: #8b5cf6; }
+.poke-type.psychic { background-color: #ec4899; }
+.poke-type.steel { background-color: #64748b; }
+
+/* 7. 프롬프트 모드 라디오 카드 선택기 */
+.radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.radio-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.radio-card:hover {
+    border-color: #94a3b8;
+    background-color: #f1f5f9;
+}
+
+.radio-card input[type="radio"] {
+    margin-top: 4px;
+}
+
+.radio-card input[type="radio"]:checked + .radio-content .radio-title {
+    color: #3b82f6;
+}
+
+.radio-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.radio-desc {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* 8. 버튼 스타일 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s, border-color 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.99);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.btn-primary:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.btn-outline {
+    padding: 8px 14px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-size: 0.85rem;
+}
+
+.btn-outline:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+/* 9. 에러 메시지 알림 박스 */
+.error-box {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+/* 10. 플레이스홀더 (결과 생성 전 안내창) */
+.placeholder-box {
+    background-color: #ffffff;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 60px 24px;
+    text-align: center;
+    color: #64748b;
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.placeholder-box h3 {
+    font-size: 1.15rem;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.placeholder-box p {
+    font-size: 0.9rem;
+}
+
+/* 11. 로딩 인디케이터 (포켓몬 바운스 스피너) */
+.loading-box {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 50px 24px;
+    text-align: center;
+}
+
+.poke-loading-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.loading-poke-sprite {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    animation: pokeBounce 0.7s infinite alternate ease-in-out;
+    margin-bottom: 14px;
+}
+
+@keyframes pokeBounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-14px); }
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border: 4px solid #fecaca;
+    border-top: 4px solid #ef4444;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.loading-subtitle {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+/* 12. 결과 출력 카드 (트레이너 에디션) */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.result-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.result-poke-avatar {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    background: #ffffff;
+    border: 2px solid #ef4444;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.partner-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ef4444;
+    background-color: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.result-header .section-title {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    font-size: 1.15rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.result-body {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.markdown-preview {
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #1e293b;
+    word-break: break-word;
+    line-height: 1.75;
+}
+
+.markdown-preview h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 20px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.markdown-preview h1:first-child {
+    margin-top: 0;
+}
+
+.markdown-preview h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 18px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.markdown-preview h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 14px 0 8px;
+}
+
+.markdown-preview p {
+    margin-bottom: 12px;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    margin: 8px 0 16px 22px;
+}
+
+.markdown-preview li {
+    margin-bottom: 6px;
+}
+
+.markdown-preview hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+
+.markdown-preview strong {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.markdown-preview blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 12px;
+    color: #475569;
+    background-color: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 12px 0;
+}
+
+/* 13. 유틸리티 클래스 */
+.hidden {
+    display: none !important;
+}
