@@ -105,23 +105,29 @@ def build_prompt(name, job_title, experience, projects, tone, prompt_type, partn
 """
     return prompt
 
-# 5. 메인 홈 화면 라우트
+# 5. 메인 홈 화면 라우트 (Vercel Serverless 경로 호환 다중 매핑)
 @app.route("/")
+@app.route("/api")
+@app.route("/api/index")
+@app.route("/api/index.py")
 def index():
     logger.info("메인 화면(/) 요청 수신")
     return render_template("index.html")
 
 # 5-1. PWA 설정 파일 및 서비스 워커 서빙 라우트
 @app.route("/manifest.json")
+@app.route("/api/manifest.json")
 def manifest():
     return send_from_directory(app.static_folder, "manifest.json", mimetype="application/manifest+json")
 
 @app.route("/sw.js")
+@app.route("/api/sw.js")
 def service_worker():
     return send_from_directory(app.static_folder, "sw.js", mimetype="application/javascript")
 
 # 6. AI 생성 API 라우트
 @app.route("/generate", methods=["POST"])
+@app.route("/api/generate", methods=["POST"])
 def generate():
     logger.info("이력서 및 포트폴리오 생성(/generate) 요청 수신")
     
