@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from dotenv import load_dotenv
 import google.generativeai as genai
 
@@ -22,8 +22,13 @@ else:
     logger.info("GEMINI_API_KEY가 성공적으로 로드되었습니다.")
     genai.configure(api_key=GEMINI_API_KEY)
 
-# 3. Flask 웹 애플리케이션 초기화
-app = Flask(__name__)
+# 3. Flask 웹 애플리케이션 초기화 (Vercel Serverless 및 로컬 호환 루트 디렉토리 지정)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 
 # 4. 프롬프트 생성 함수 (Prompt Engineering + 포켓몬 모티브)
 def build_prompt(name, job_title, experience, projects, tone, prompt_type, partner_pokemon="피카츄"):
@@ -105,6 +110,15 @@ def build_prompt(name, job_title, experience, projects, tone, prompt_type, partn
 def index():
     logger.info("메인 화면(/) 요청 수신")
     return render_template("index.html")
+
+# 5-1. PWA 설정 파일 및 서비스 워커 서빙 라우트
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory(app.static_folder, "manifest.json", mimetype="application/manifest+json")
+
+@app.route("/sw.js")
+def service_worker():
+    return send_from_directory(app.static_folder, "sw.js", mimetype="application/javascript")
 
 # 6. AI 생성 API 라우트
 @app.route("/generate", methods=["POST"])

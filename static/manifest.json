@@ -1,0 +1,21 @@
+{
+  "name": "AI 포켓몬 트레이너 이력서 & 포트폴리오 빌더",
+  "short_name": "AI 이력서 빌더",
+  "description": "나의 파트너 포켓몬과 함께 완성하는 AI 이력서 & 포트폴리오",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
