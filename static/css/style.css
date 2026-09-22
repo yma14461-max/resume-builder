@@ -14,7 +14,73 @@ body {
     background-color: #f8fafc;
     color: #1e293b;
     line-height: 1.6;
-    padding: 24px;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* iOS Safari PWA 설치 안내 배너 스타일 */
+.ios-banner {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInDown 0.4s ease-out;
+}
+
+.ios-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ios-banner-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.ios-banner-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 2px;
+}
+
+.ios-banner-text p {
+    font-size: 0.82rem;
+    color: #cbd5e1;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.ios-banner-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.ios-banner-close:hover {
+    color: #ffffff;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* 2. 전체 레이아웃 컨테이너 */
@@ -119,13 +185,15 @@ select,
 textarea {
     width: 100%;
     padding: 10px 14px;
-    font-size: 0.95rem;
+    font-size: 16px; /* iOS Safari 탭 시 자동 확대(Zoom-in) 방지 */
     font-family: inherit;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     background-color: #ffffff;
     color: #1e293b;
     transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none; /* iOS 기본 둥근 모서리 및 그림자 리셋 */
+    appearance: none;
 }
 
 input[type="text"]:focus,
@@ -167,6 +235,9 @@ textarea {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation; /* iOS 더블탭 줌 딜레이 제거 */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .pokemon-card:hover {
@@ -280,6 +351,8 @@ textarea {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s, border-color 0.2s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn:active {
