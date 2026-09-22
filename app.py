@@ -14,10 +14,15 @@ logger = logging.getLogger(__name__)
 
 # 2. .env 파일에서 환경변수 로드
 load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+def get_gemini_api_key():
+    raw_key = os.getenv("GEMINI_API_KEY", "")
+    return raw_key.strip().strip('"').strip("'")
+
+GEMINI_API_KEY = get_gemini_api_key()
 
 if not GEMINI_API_KEY:
-    logger.error("GEMINI_API_KEY가 .env 파일에 설정되어 있지 않습니다.")
+    logger.error("GEMINI_API_KEY가 환경 변수에 설정되어 있지 않습니다.")
 else:
     logger.info("GEMINI_API_KEY가 성공적으로 로드되었습니다.")
     genai.configure(api_key=GEMINI_API_KEY)
@@ -161,15 +166,17 @@ def generate():
         return jsonify({"success": False, "error": "프로젝트 경험을 입력해 주세요."}), 400
 
     # 6-4. API Key 설정 검증
-    if not GEMINI_API_KEY:
-        logger.error("Gemini API Key가 .env에 설정되지 않음")
+    current_key = get_gemini_api_key() or GEMINI_API_KEY
+    if not current_key:
+        logger.error("Gemini API Key가 환경 변수에 설정되지 않음")
         return jsonify({
             "success": False,
-            "error": ".env 파일에 GEMINI_API_KEY가 설정되어 있지 않습니다. 키를 등록해 주세요."
+            "error": "GEMINI_API_KEY 환경 변수가 설정되어 있지 않습니다. Vercel 또는 .env에 키를 등록해 주세요."
         }), 500
 
     # 6-5. Gemini API 호출
     try:
+        genai.configure(api_key=current_key)
         logger.info(f"Gemini API 호출 시작 - 지원자: {name}, 직무: {job_title}, 파트너: {partner_pokemon}, 모드: {prompt_type}")
         prompt = build_prompt(name, job_title, experience, projects, tone, prompt_type, partner_pokemon)
 
